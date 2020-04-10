@@ -10,7 +10,7 @@ import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import countyLocationData from "../data/county-latlong";
-import { isYesterday } from "../lib/util";
+import { isYesterday, isToday } from "../lib/util";
 import Papa from "papaparse";
 import "leaflet/dist/leaflet.css";
 import Card from "react-bootstrap/Card";
@@ -434,10 +434,13 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
     complete: function(results, file) {
       countyDataFromApi = results.data.filter((item) => {
         return (
-          isYesterday(new Date(item["date"])) && item["state"] === "Michigan"
+          (isToday(new Date(item["date"])) && item["state"] === "Michigan") ||
+          (isYesterday(new Date(item["date"])) && item["state"] === "Michigan")
         );
       });
+
       countyDataFromApi.forEach((countyFromApi) => {
+        console.log(countyFromApi);
         let ind = countyLocationData.findIndex(
           (cLocData) =>
             cLocData.county.split(",")[0].trim() === countyFromApi.county
@@ -449,6 +452,30 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
       });
       setCountyData(countyDataFromApi);
     },
+  });
+}
+
+function buildMiDataV2(setCountyData) {
+  let miGovSite =
+    "https://cors-anywhere.herokuapp.com/https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html";
+  axios.get(miGovSite).then((res) => {
+    const $ = cheerio.load(res.data);
+    let miStat = {};
+    let countyDataFromApi = [];
+    countyDataFromApi = $(
+      ".fullContent > table > tbody > tr > td"
+    ).map((element) => {});
+    countyDataFromApi.forEach((countyFromApi) => {
+      let ind = countyLocationData.findIndex(
+        (cLocData) =>
+          cLocData.county.split(",")[0].trim() === countyFromApi.county
+      );
+      if (ind > 0) {
+        countyFromApi["lat"] = countyLocationData[ind]["lat"];
+        countyFromApi["lng"] = countyLocationData[ind]["lng"];
+      }
+    });
+    setCountyData(countyDataFromApi);
   });
 }
 

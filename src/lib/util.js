@@ -36,6 +36,7 @@ const batchGeocode = (key, addresses) => {
 
 const isToday = (someDate) => {
   const today = new Date();
+  today.setMonth(today.getMonth + 1);
   return (
     someDate.getDate() == today.getDate() &&
     someDate.getMonth() == today.getMonth() &&
@@ -44,11 +45,13 @@ const isToday = (someDate) => {
 };
 
 const isYesterday = (someDate) => {
-  const today = new Date("2020-04-03");
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 2);
   return (
-    someDate.getDate() == today.getDate() &&
-    someDate.getMonth() == today.getMonth() &&
-    someDate.getFullYear() == today.getFullYear()
+    someDate.getDate() === yesterday.getDate() &&
+    someDate.getMonth() === yesterday.getMonth() &&
+    someDate.getFullYear() === yesterday.getFullYear()
   );
 };
 
