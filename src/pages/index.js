@@ -316,10 +316,10 @@ function fetchCaseCounts(setMiStats) {
       const $ = cheerio.load(res.data);
       let miStat = {};
       miStat["casesTotal"] = $(
-        ".fullContent > table > tbody > tr:nth-child(77) > td:nth-child(2) > strong"
+        ".fullContent > table > tbody > tr:nth-child(79) > td:nth-child(2) > strong"
       ).text();
       miStat["casesOakland"] = $(
-        ".fullContent > table > tbody > tr:nth-child(54) > td:nth-child(2)"
+        ".fullContent > table > tbody > tr:nth-child(55) > td:nth-child(2)"
       ).text();
       setMiStats(miStat);
     });
