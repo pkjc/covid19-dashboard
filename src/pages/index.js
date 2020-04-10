@@ -12,14 +12,13 @@ import Button from "react-bootstrap/Button";
 import countyLocationData from "../data/county-latlong";
 import { isYesterday } from "../lib/util";
 import Papa from "papaparse";
-import { batchGeocode } from "lib/util";
 import "leaflet/dist/leaflet.css";
 import Card from "react-bootstrap/Card";
 import cheerio from "cheerio";
 
 const DEFAULT_ZOOM = 8;
 const INDIA_DATA_API = "https://api.covid19india.org/state_district_wise.json";
-const INDIA_DAILY_DATA = "https://api.covid19india.org/states_daily.json";
+// const INDIA_DAILY_DATA = "https://api.covid19india.org/states_daily.json";
 const USA_DATA_API =
   "https://cors-anywhere.herokuapp.com/https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv";
 const supportedLocations = ["maharashtra", "michigan"];
@@ -94,7 +93,7 @@ const IndexPage = () => {
         let updatedFormatted;
         let casesString;
 
-        const { county, cases, deaths, date } = properties;
+        const { county, cases, date } = properties;
         casesString = `${cases}`;
 
         if (cases > 1000) {
@@ -347,16 +346,16 @@ function getGeoJson(data) {
   };
 }
 
-function fetchLatLongFromApi(cities) {
-  let inputArray = [];
+// function fetchLatLongFromApi(cities) {
+//   let inputArray = [];
 
-  cities.forEach((k) => {
-    console.log(k);
-    inputArray.push(Object.keys(k)[0] + ", " + "Maharashtra");
-  });
-  console.log(inputArray);
-  // newFunction_1(inputArray);
-}
+//   cities.forEach((k) => {
+//     console.log(k);
+//     inputArray.push(Object.keys(k)[0] + ", " + "Maharashtra");
+//   });
+//   console.log(inputArray);
+//   // newFunction_1(inputArray);
+// }
 
 function addLatLongToCities(cities, setCityData) {
   let ind = -1;
@@ -412,20 +411,6 @@ async function buildMhData(INDIA_DATA_API, setCityData, setMhStats) {
 //   inputArray.push(stateNeighborMap(location)["leftBoundLoc"]);
 //   inputArray.push(stateNeighborMap(location)["rightBoundLoc"]);
 
-//   batchGeocode("132ba4ca07734bb798f5f53eb69d9f7c", inputArray)
-//   .then((locData) => {
-//       locData.forEach((loc) => {
-//         let locWithLatLng = {};
-//         locWithLatLng["locName"] = loc["input"];
-//         locWithLatLng["lat"] = loc["geometry"]["lat"];
-//         locWithLatLng["lng"] = loc["geometry"]["lng"];
-//         stateLocData = locWithLatLng;
-//       });
-//     }
-//   );
-
-// }
-
 function buildMiData(STATE_COUNTIES_API, setCountyData) {
   let countyDataFromApi = [];
   Papa.parse(STATE_COUNTIES_API, {
@@ -440,7 +425,7 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
       countyDataFromApi.forEach((countyFromApi) => {
         let ind = countyLocationData.findIndex(
           (cLocData) =>
-            cLocData.county.split(",")[0].trim() == countyFromApi.county
+            cLocData.county.split(",")[0].trim() === countyFromApi.county
         );
         if (ind > 0) {
           countyFromApi["lat"] = countyLocationData[ind]["lat"];
@@ -454,7 +439,7 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
 
 // function newFunction_1(inputArray) {
 //   const countyLocationData = [];
-//   batchGeocode("132ba4ca07734bb798f5f53eb69d9f7c", inputArray).then((data) => {
+//   batchGeocode("", inputArray).then((data) => {
 //     data.forEach((d) => {
 //       var jsonData = {};
 //       jsonData["county"] = d["input"];

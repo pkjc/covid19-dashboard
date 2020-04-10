@@ -9,7 +9,7 @@ import Container from "components/Container";
 
 // function newFunction_1(inputArray) {
 //   const countyLocationData = [];
-//   batchGeocode("132ba4ca07734bb798f5f53eb69d9f7c", inputArray).then((data) => {
+//   batchGeocode("", inputArray).then((data) => {
 //     data.forEach((d) => {
 //       var jsonData = {};
 //       jsonData["county"] = d["input"];
