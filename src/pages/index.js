@@ -245,7 +245,7 @@ const IndexPage = () => {
                     </Card.Title>
                     <hr />
                     <Card.Title as="h3">
-                      Today's Count: {miStats["casesOakland"]}
+                      Oakland CT Cases: {miStats["casesOakland"]}
                     </Card.Title>
                   </Card.Body>
                 </Card>
@@ -293,7 +293,7 @@ const IndexPage = () => {
                     </Card.Title>
                     <hr />
                     <Card.Title as="h3">
-                      Today's Count: {mhStats["casesPune"]}
+                      Pune Cases: {mhStats["casesPune"]}
                     </Card.Title>
                   </Card.Body>
                 </Card>
