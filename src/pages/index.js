@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Helmet from "react-helmet";
-import L from "leaflet";
+import * as L from "leaflet";
 import axios from "axios";
 import Layout from "components/Layout";
 import Map from "components/Map";
@@ -16,7 +16,7 @@ import "leaflet/dist/leaflet.css";
 import Card from "react-bootstrap/Card";
 import cheerio from "cheerio";
 
-const DEFAULT_ZOOM = 8;
+const DEFAULT_ZOOM = 7;
 const INDIA_DATA_API = "https://api.covid19india.org/state_district_wise.json";
 // const INDIA_DAILY_DATA = "https://api.covid19india.org/states_daily.json";
 const USA_DATA_API =
@@ -37,12 +37,12 @@ const supportedLocations = ["maharashtra", "michigan"];
 const miLeftBound = [44.5133, -88.015831];
 const miRightBound = [43.39722, -80.311386];
 const miCenter = [44.314842, -85.602364];
-const miBounds = L.latLngBounds([miLeftBound, miRightBound]);
+// const miBounds = L.latLngBounds([miLeftBound, miRightBound]);
 
 const mhLeftBound = [21.203502, 72.839233];
 const mhRightBound = [19.089769, 82.02153];
 const mhCenter = [19.75148, 75.71389];
-const mhBounds = L.latLngBounds([mhLeftBound, mhRightBound]);
+// const mhBounds = L.latLngBounds([mhLeftBound, mhRightBound]);
 
 const IndexPage = () => {
   const [countyData, setCountyData] = useState([]);
@@ -183,7 +183,7 @@ const IndexPage = () => {
 
   const miMapSettings = {
     center: miCenter,
-    bounds: miBounds,
+    // bounds: miBounds,
     defaultBaseMap: "OpenStreetMap",
     zoom: DEFAULT_ZOOM,
     mapEffect: miMapEffect,
@@ -191,7 +191,7 @@ const IndexPage = () => {
 
   const mhMapSettings = {
     center: mhCenter,
-    bounds: mhBounds,
+    // bounds: mhBounds,
     defaultBaseMap: "OpenStreetMap",
     zoom: DEFAULT_ZOOM,
     mapEffect: mhMapEffect,
