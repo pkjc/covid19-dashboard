@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Helmet from "react-helmet";
+
 import * as L from "leaflet";
 import axios from "axios";
 import Layout from "components/Layout";
@@ -15,6 +15,7 @@ import Papa from "papaparse";
 import "leaflet/dist/leaflet.css";
 import Card from "react-bootstrap/Card";
 import cheerio from "cheerio";
+import Metadata from "../components/Metadata";
 
 const DEFAULT_ZOOM = 7;
 const INDIA_DATA_API = "https://api.covid19india.org/state_district_wise.json";
@@ -199,9 +200,7 @@ const IndexPage = () => {
 
   return (
     <Layout pageName="home">
-      <Helmet>
-        <title>Covid-19 Tracker</title>
-      </Helmet>
+      <Metadata />
       <Container fluid>
         <Row lg={2} xs={1}>
           <Col>
@@ -440,7 +439,6 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
       });
 
       countyDataFromApi.forEach((countyFromApi) => {
-        console.log(countyFromApi);
         let ind = countyLocationData.findIndex(
           (cLocData) =>
             cLocData.county.split(",")[0].trim() === countyFromApi.county
