@@ -203,87 +203,102 @@ const IndexPage = () => {
         <title>Covid-19 Tracker</title>
       </Helmet>
       <Container fluid>
-        <Row>
+        <Row lg={2} xs={1}>
           <Col>
-            <Map {...miMapSettings} style={{ height: "60vh" }} />
+            <Row>
+              <Col className={"my-sm-2  my-2"}>
+                <Card as="h4" style={{ textAlign: "center" }} body>
+                  Michigan Cases
+                </Card>
+                <Map {...miMapSettings} style={{ height: "60vh" }} />
+              </Col>
+            </Row>
+            <Row lg={2} xs={1}>
+              <Col xs={{ order: 12 }} className={"my-sm-2  my-2"}>
+                <Card bg="Dark" text="dark">
+                  <Card.Header as="h4">Michigan News</Card.Header>
+                  <ListGroup variant="flush">
+                    {miNews &&
+                      miNews.length > 0 &&
+                      miNews.map((newsItem, i) => {
+                        return (
+                          <ListGroup.Item key={i} style={{ padding: ".2em" }}>
+                            <Button
+                              variant="link"
+                              style={{ textAlign: "left", fontSize: "1.1em" }}
+                              href={newsItem.link}
+                            >
+                              {newsItem.title}
+                            </Button>
+                          </ListGroup.Item>
+                        );
+                      })}
+                  </ListGroup>
+                </Card>
+              </Col>
+              <Col lg={{ order: 12 }} className={"my-sm-2  my-2"}>
+                <Card bg="Dark" text="dark">
+                  <Card.Header as="h4">Statistics</Card.Header>
+                  <Card.Body>
+                    <Card.Title as="h3">
+                      Total Count: {miStats["casesTotal"]}
+                    </Card.Title>
+                    <hr />
+                    <Card.Title as="h3">
+                      Today's Count: {miStats["casesOakland"]}
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
           </Col>
           <Col>
-            <Map {...mhMapSettings} style={{ height: "60vh" }} />
-          </Col>
-        </Row>
-        <br />
-        <Row>
-          <Col>
-            <Card bg="Dark" text="dark">
-              <Card.Header as="h4">Michigan News</Card.Header>
-              <ListGroup variant="flush">
-                {miNews &&
-                  miNews.length > 0 &&
-                  miNews.map((newsItem, i) => {
-                    return (
-                      <ListGroup.Item key={i} style={{ padding: ".2em" }}>
-                        <Button
-                          variant="link"
-                          style={{ textAlign: "left", fontSize: "1.1em" }}
-                          href={newsItem.link}
-                        >
-                          {newsItem.title}
-                        </Button>
-                      </ListGroup.Item>
-                    );
-                  })}
-              </ListGroup>
-            </Card>
-          </Col>
-          <Col>
-            <Card bg="Dark" text="dark">
-              <Card.Header as="h4">Statistics</Card.Header>
-              <Card.Body>
-                <Card.Title as="h3">
-                  Total Count: {miStats["casesTotal"]}
-                </Card.Title>
-                <hr />
-                <Card.Title as="h3">
-                  Today's Count: {miStats["casesOakland"]}
-                </Card.Title>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col>
-            <Card bg="Dark" text="dark">
-              <Card.Header as="h4">Maharashta News</Card.Header>
-              <ListGroup variant="flush">
-                {mhNews &&
-                  mhNews.length > 0 &&
-                  mhNews.map((newsItem, i) => {
-                    return (
-                      <ListGroup.Item key={i} style={{ padding: ".2em" }}>
-                        <Button
-                          variant="link"
-                          style={{ textAlign: "left", fontSize: "1.1em" }}
-                          href={newsItem.link}
-                        >
-                          {newsItem.title}
-                        </Button>
-                      </ListGroup.Item>
-                    );
-                  })}
-              </ListGroup>
-            </Card>
-          </Col>
-          <Col>
-            <Card bg="Dark" text="dark">
-              <Card.Header as="h4">Statistics</Card.Header>
-              <Card.Body>
-                <Card.Title as="h3">
-                  Total Count: {mhStats["casesTotal"]}
-                </Card.Title>
-                <hr />
-                <Card.Title as="h3">
-                  Today's Count: {mhStats["casesPune"]}
-                </Card.Title>
-              </Card.Body>
-            </Card>
+            <Row>
+              <Col className={"my-sm-2  my-2"}>
+                <Card as="h4" style={{ textAlign: "center" }} body>
+                  Maharashtra Cases
+                </Card>
+                <Map {...mhMapSettings} style={{ height: "60vh" }} />
+              </Col>
+            </Row>
+            <Row lg={2} xs={1}>
+              <Col xs={{ order: 12 }} className={"my-sm-2  my-2"}>
+                <Card bg="Dark" text="dark">
+                  <Card.Header as="h4">Maharashta News</Card.Header>
+                  <ListGroup variant="flush">
+                    {mhNews &&
+                      mhNews.length > 0 &&
+                      mhNews.map((newsItem, i) => {
+                        return (
+                          <ListGroup.Item key={i} style={{ padding: ".2em" }}>
+                            <Button
+                              variant="link"
+                              style={{ textAlign: "left", fontSize: "1.1em" }}
+                              href={newsItem.link}
+                            >
+                              {newsItem.title}
+                            </Button>
+                          </ListGroup.Item>
+                        );
+                      })}
+                  </ListGroup>
+                </Card>
+              </Col>
+              <Col lg={{ order: 12 }} className={"my-sm-2  my-2"}>
+                <Card bg="Dark" text="dark">
+                  <Card.Header as="h4">Statistics</Card.Header>
+                  <Card.Body>
+                    <Card.Title as="h3">
+                      Total Count: {mhStats["casesTotal"]}
+                    </Card.Title>
+                    <hr />
+                    <Card.Title as="h3">
+                      Today's Count: {mhStats["casesPune"]}
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Container>
