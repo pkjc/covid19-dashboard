@@ -320,7 +320,7 @@ function fetchCaseCounts(setMiStats) {
         if (
           $($(el).find("td")[0])
             .text()
-            .trim() === "Totals"
+            .includes("Total")
         ) {
           console.log($($(el).find("td")[1]).text());
           miStat["casesTotal"] = $($(el).find("td")[1]).text();
