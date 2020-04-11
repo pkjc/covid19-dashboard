@@ -81,10 +81,10 @@ const IndexPage = () => {
           properties: countyInfo,
           geometry: {
             type: "Point",
-            coordinates: [lng, lat],
-          },
+            coordinates: [lng, lat]
+          }
         };
-      }),
+      })
     };
 
     const geoJsonLayers = new L.GeoJSON(geoJson, {
@@ -121,11 +121,11 @@ const IndexPage = () => {
         return L.marker(latlng, {
           icon: L.divIcon({
             className: "icon",
-            html,
+            html
           }),
-          riseOnHover: true,
+          riseOnHover: true
         });
-      },
+      }
     });
 
     geoJsonLayers.addTo(map);
@@ -172,11 +172,11 @@ const IndexPage = () => {
         return L.marker(latlng, {
           icon: L.divIcon({
             className: "icon",
-            html,
+            html
           }),
-          riseOnHover: true,
+          riseOnHover: true
         });
-      },
+      }
     });
 
     geoJsonLayers.addTo(map);
@@ -187,7 +187,7 @@ const IndexPage = () => {
     // bounds: miBounds,
     defaultBaseMap: "OpenStreetMap",
     zoom: DEFAULT_ZOOM,
-    mapEffect: miMapEffect,
+    mapEffect: miMapEffect
   };
 
   const mhMapSettings = {
@@ -195,7 +195,7 @@ const IndexPage = () => {
     // bounds: mhBounds,
     defaultBaseMap: "OpenStreetMap",
     zoom: DEFAULT_ZOOM,
-    mapEffect: mhMapEffect,
+    mapEffect: mhMapEffect
   };
 
   return (
@@ -244,7 +244,7 @@ const IndexPage = () => {
                     </Card.Title>
                     <hr />
                     <Card.Title as="h3">
-                      Oakland CT Cases: {miStats["casesOakland"]}
+                      Oakland County: {miStats["casesOakland"]}
                     </Card.Title>
                   </Card.Body>
                 </Card>
@@ -292,7 +292,7 @@ const IndexPage = () => {
                     </Card.Title>
                     <hr />
                     <Card.Title as="h3">
-                      Pune Cases: {mhStats["casesPune"]}
+                      Pune City: {mhStats["casesPune"]}
                     </Card.Title>
                   </Card.Body>
                 </Card>
@@ -312,15 +312,26 @@ function fetchCaseCounts(setMiStats) {
     .get(
       "https://cors-anywhere.herokuapp.com/https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html"
     )
-    .then((res) => {
+    .then(res => {
       const $ = cheerio.load(res.data);
       let miStat = {};
-      miStat["casesTotal"] = $(
-        ".fullContent > table > tbody > tr:nth-child(79) > td:nth-child(2) > strong"
-      ).text();
-      miStat["casesOakland"] = $(
-        ".fullContent > table > tbody > tr:nth-child(55) > td:nth-child(2)"
-      ).text();
+      $(".fullContent > table > tbody > tr ").each((ind, el) => {
+        // console.log($($(el).find("td")[0]).text());
+        if (
+          $($(el).find("td")[0])
+            .text()
+            .trim() === "Totals"
+        ) {
+          console.log($($(el).find("td")[1]).text());
+          miStat["casesTotal"] = $($(el).find("td")[1]).text();
+        } else if (
+          $($(el).find("td")[0])
+            .text()
+            .trim() === "Oakland"
+        ) {
+          miStat["casesOakland"] = $($(el).find("td")[1]).text();
+        }
+      });
       setMiStats(miStat);
     });
 }
@@ -349,14 +360,14 @@ function getGeoJson(data) {
       return {
         type: "Feature",
         properties: {
-          ...city[Object.keys(city)[0]],
+          ...city[Object.keys(city)[0]]
         },
         geometry: {
           type: "Point",
-          coordinates: [lng, lat],
-        },
+          coordinates: [lng, lat]
+        }
       };
-    }),
+    })
   };
 }
 
@@ -373,9 +384,9 @@ function getGeoJson(data) {
 
 function addLatLongToCities(cities, setCityData) {
   let ind = -1;
-  cities.forEach((k) => {
+  cities.forEach(k => {
     ind = countyLocationData.findIndex(
-      (item) => item.county.split(",")[0].trim() === Object.keys(k)[0]
+      item => item.county.split(",")[0].trim() === Object.keys(k)[0]
     );
     if (ind > 0) {
       k[Object.keys(k)[0]]["lat"] = countyLocationData[ind]["lat"];
@@ -431,16 +442,16 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
     download: true,
     header: true,
     complete: function(results, file) {
-      countyDataFromApi = results.data.filter((item) => {
+      countyDataFromApi = results.data.filter(item => {
         return (
           (isToday(new Date(item["date"])) && item["state"] === "Michigan") ||
           (isYesterday(new Date(item["date"])) && item["state"] === "Michigan")
         );
       });
 
-      countyDataFromApi.forEach((countyFromApi) => {
+      countyDataFromApi.forEach(countyFromApi => {
         let ind = countyLocationData.findIndex(
-          (cLocData) =>
+          cLocData =>
             cLocData.county.split(",")[0].trim() === countyFromApi.county
         );
         if (ind > 0) {
@@ -449,23 +460,23 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
         }
       });
       setCountyData(countyDataFromApi);
-    },
+    }
   });
 }
 
 function buildMiDataV2(setCountyData) {
   let miGovSite =
     "https://cors-anywhere.herokuapp.com/https://www.michigan.gov/coronavirus/0,9753,7-406-98163_98173---,00.html";
-  axios.get(miGovSite).then((res) => {
+  axios.get(miGovSite).then(res => {
     const $ = cheerio.load(res.data);
     let miStat = {};
     let countyDataFromApi = [];
     countyDataFromApi = $(
       ".fullContent > table > tbody > tr > td"
-    ).map((element) => {});
-    countyDataFromApi.forEach((countyFromApi) => {
+    ).map(element => {});
+    countyDataFromApi.forEach(countyFromApi => {
       let ind = countyLocationData.findIndex(
-        (cLocData) =>
+        cLocData =>
           cLocData.county.split(",")[0].trim() === countyFromApi.county
       );
       if (ind > 0) {
