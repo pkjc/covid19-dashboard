@@ -21,20 +21,20 @@ const batchGeocode = (key, addresses) => {
     for (let i = 0; i < addresses.length; i++) {
       const address = addresses[i];
       if (address.length > 0) {
-        const p = opencage.geocode({ key, q: address }).then((response) => {
+        const p = opencage.geocode({ key, q: address }).then(response => {
           const { geometry, formatted } = response.results[0];
           results.push({ input: address, geometry, formatted });
         });
         prs.push(p);
       }
     }
-    Promise.all(prs).then((values) => {
+    Promise.all(prs).then(values => {
       resolve(results);
     });
   });
 };
 
-const isToday = (someDate) => {
+const isToday = someDate => {
   const today = new Date();
   today.setMonth(today.getMonth + 1);
   return (
@@ -44,7 +44,7 @@ const isToday = (someDate) => {
   );
 };
 
-const isYesterday = (someDate) => {
+const isYesterday = someDate => {
   const today = new Date();
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 2);
@@ -55,4 +55,16 @@ const isYesterday = (someDate) => {
   );
 };
 
-export { isToday, isYesterday, isDomAvailable, batchGeocode };
+const isTwoDaysAgo = someDate => {
+  const today = new Date();
+  const twoDaysAgo = new Date(today);
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 3);
+  console.log(twoDaysAgo.getDate());
+  return (
+    someDate.getDate() === twoDaysAgo.getDate() &&
+    someDate.getMonth() === twoDaysAgo.getMonth() &&
+    someDate.getFullYear() === twoDaysAgo.getFullYear()
+  );
+};
+
+export { isToday, isYesterday, isDomAvailable, batchGeocode, isTwoDaysAgo };

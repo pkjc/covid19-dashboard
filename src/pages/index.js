@@ -10,7 +10,7 @@ import Container from "react-bootstrap/Container";
 import ListGroup from "react-bootstrap/ListGroup";
 import Button from "react-bootstrap/Button";
 import countyLocationData from "../data/county-latlong";
-import { isYesterday, isToday } from "../lib/util";
+import { isYesterday, isToday, isTwoDaysAgo } from "../lib/util";
 import Papa from "papaparse";
 import "leaflet/dist/leaflet.css";
 import Card from "react-bootstrap/Card";
@@ -316,7 +316,7 @@ function fetchCaseCounts(setMiStats) {
       const $ = cheerio.load(res.data);
       let miStat = {};
       $(".fullContent > table > tbody > tr ").each((ind, el) => {
-        // console.log($($(el).find("td")[0]).text());
+        console.log($($(el).find("td")[0]).text());
         if (
           $($(el).find("td")[0])
             .text()
@@ -444,11 +444,14 @@ function buildMiData(STATE_COUNTIES_API, setCountyData) {
     complete: function(results, file) {
       countyDataFromApi = results.data.filter(item => {
         return (
-          (isToday(new Date(item["date"])) && item["state"] === "Michigan") ||
-          (isYesterday(new Date(item["date"])) && item["state"] === "Michigan")
+          item["state"] === "Michigan" &&
+          (isToday(new Date(item["date"])) ||
+            isYesterday(new Date(item["date"])) ||
+            isTwoDaysAgo(new Date(item["date"])))
         );
       });
-
+      // (isToday(new Date(item["date"])) && item["state"] === "Michigan") ||
+      // (isYesterday(new Date(item["date"])) && item["state"] === "Michigan")
       countyDataFromApi.forEach(countyFromApi => {
         let ind = countyLocationData.findIndex(
           cLocData =>
